@@ -219,3 +219,167 @@ function unique(array){
    } return uniqueArr;
 };
 module.exports.unique = unique;
+
+/*
+ *  map: iterates through an array OR an object and creates an array mapArr made up of those values in that collection which 
+ *  are passed through a certain test (argument func)
+ * 
+ * @param {collection} array or object - the array or object which map will iterate through and pass into function
+ * @param {function} func - the test which the values of colleciton will be passed into and returned from
+ *
+ * @return{array} mapArr - returns a new array made up of the values of collection afetr they are passed into func
+ *
+ */
+ 
+function map(collection, func){
+    let mapArr = [];
+    _.each(collection, function(value, index, array){
+        mapArr.push(func(value,index,collection));
+    });
+    return mapArr;
+};
+
+module.exports.map = map;
+
+/*
+ *  pluck: iterates through an array of objects <array> and creates a new array <propArr> containing the value of property <property>
+ *  for each object in <array>
+ * 
+ * @param {array} array - the array of objects which will be iterated through and checked for values of <property>
+ * @param {property} property - the <property> which each element in the array will be checked for 
+ *
+ * @return{array} propArr - returns a new array made up of the values of <property> found in the objects of <array>
+ *
+ */
+ 
+function pluck(array, property){
+let propArr = [];
+_.map(array, function(value, index, collection){
+    propArr.push(collection[index][property]);
+});
+return propArr;
+};
+module.export.pluck = pluck;
+
+/*
+ *  contains: checks an array <array> for a value <value> and returns true if it contains <value>, returns false if it does not
+ *  
+ * 
+ * @param {array} array - the array which will be checked for <value>
+ * @param {value} value - the <value> contains is looking for within <array>
+ *
+ * @return{boolean} true or false - returns true or false based on whether or not <array> contains <value>
+ *
+ */
+ 
+ function contains(array, value){
+    return _.indexOf(array, value) > -1 ? true : false;
+};
+module.exports.contains = contains;
+
+/*
+ *  every: iterates through an array or object <collection> and passes each element if array or key-value if object into function <func>
+ *  if the return value of <func> on EVERY SINGLE element of <collection> is truthy than every will return true, false otherwise
+ * 
+ * @param {collection} array or object - the array or objects whose elements or key-values if Object will be passed into <func> and tested for truthiness
+ * @param {function} func - the function which we will pass elements of <collection> into
+ *
+ * @return{variable boolean} result - returns variable <result> with a value of true or false based on whether all elemts of collection were true
+ *
+ */
+
+function every(collection, func){
+    let result = true;
+    _.each(collection, function(value, index, collection) {
+        if(typeof func != "function"){
+            if (!collection[index]){
+                result = false;
+            }
+        }
+        else if(!func(value, index, collection)){
+           result = false; 
+        }
+    });
+    return result;
+};
+module.exports.every = every;
+
+/*
+ *  some: iterates through an array or object <collection> and passes each element if array or key-value if object into function <func>
+ *  if the return value of <func> on ANY element of <collection> is truthy than some will return true, false otherwise
+ * 
+ * @param {collection} array or object - the array or objects whose elements or key-values if Object will be passed into <func> and tested for truthiness
+ * @param {function} func - the function which we will pass elements of <collection> into
+ *
+ * @return{variable boolean} result - returns variable <result> with a value of true or false based on whether any element of collection was true
+ *
+ */
+ 
+function some(collection, func){
+    let result = false;
+    _.each(collection, function(value, index, collection) {
+        if(typeof func != "function"){
+            if(collection[index]){
+                result = true;
+            }
+        }
+        else if(func(value, index, collection)){
+           result = true; 
+        }
+    });
+    return result;
+};
+module.exports.some = some;
+
+/*
+ *  reduce: reduces <arr> to a value <seed> which is the total result of of every elemnt in <arr> being iterated through
+ *  and passed into <func>, with the total value  tracked through each iteraiton via <seed>.
+ *  IF seed is not provided by user, it will default to value of arr[0]
+ *
+ * @param {array} arr - the array whose elements will be passed into <func> each iteration
+ * @param {function} func - the function which we will pass elements of <arr> through
+ * @param {seed} seed - keeps track of the return value of the iteration of every function. Value of seed will be returned after iteraiton is completed
+ *
+ * @return{seed} seed - returns the final value of <seed> after each element of <arr> has been passed through <func>
+ *
+ */
+ 
+function reduce(arr, func, seed){
+    var considerFirst = true;
+    if(arguments.length < 3){
+        seed = arr[0];
+        considerFirst = false;
+    }
+    _.each(arr, function(value, index, arr){
+       if(index > 0 || considerFirst){
+           seed = func(seed, value, index);
+       } 
+    });
+    return seed;
+};
+module.export.reduce = reduce;
+
+/*
+ *  extend: Copies the properties of an indefinite number of object <arguments> into the first object argument
+ *  
+ * 
+ * @param {object} objects - A collection of objects, the first one of which willr eceive the properties of all the others
+ * 
+ *
+ * @return{object} objectDest - returns the first object which now has the properties of all other arguments passed to _.extend
+ *
+ */
+ 
+ function extend(objects){
+    let objDest = arguments[0];
+    if(arguments.length < 2){
+        return;
+    }
+        for(var i = 1; i < arguments.length; i++){
+            let objSource = arguments[i];
+            for(var key in arguments[i]){
+                objDest[key] = objSource[key];
+            }
+        } return objDest;
+    };
+module.export.extend = extend;
