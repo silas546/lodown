@@ -139,7 +139,7 @@ module.exports.indexOf = indexOf;
  
 function filter(array, test){
   let newArray = [];
-  _.each(array, function(value, index, array){
+  each(array, function(value, index, array){
       if(test(value, index, array)){
       newArray.push(value);
       }
@@ -161,7 +161,7 @@ module.exports.filter = filter;
  
 function reject(array, test){
     let rejectArray = [];
-    _.filter(array, function(value, index, array){
+    filter(array, function(value, index, array){
         if (!test(value, index, array)){
             rejectArray.push(value);
         }
@@ -185,7 +185,7 @@ module.exports.reject = reject;
     var newArray = [];
     var truthArray = [];
     var falseArray = [];
-    _.filter(array,function(value, index, array){
+    filter(array,function(value, index, array){
         if(!(test(value, index, array))){
             falseArray.push(value);
         } else if(test(value, index, array)){
@@ -213,7 +213,7 @@ module.exports.partition = partition;
 function unique(array){
    var uniqueArr = [];
    for(var i = 0; i < array.length; i++){
-       if(_.indexOf(array, array[i]) === i){
+       if(indexOf(array, array[i]) === i){
            uniqueArr.push(array[i]);
        }
    } return uniqueArr;
@@ -233,7 +233,7 @@ module.exports.unique = unique;
  
 function map(collection, func){
     let mapArr = [];
-    _.each(collection, function(value, index, array){
+    each(collection, function(value, index, array){
         mapArr.push(func(value,index,collection));
     });
     return mapArr;
@@ -254,7 +254,7 @@ module.exports.map = map;
  
 function pluck(array, property){
 let propArr = [];
-_.map(array, function(value, index, collection){
+map(array, function(value, index, collection){
     propArr.push(collection[index][property]);
 });
 return propArr;
@@ -273,7 +273,7 @@ module.export.pluck = pluck;
  */
  
  function contains(array, value){
-    return _.indexOf(array, value) > -1 ? true : false;
+    return indexOf(array, value) > -1 ? true : false;
 };
 module.exports.contains = contains;
 
@@ -290,7 +290,7 @@ module.exports.contains = contains;
 
 function every(collection, func){
     let result = true;
-    _.each(collection, function(value, index, collection) {
+    each(collection, function(value, index, collection) {
         if(typeof func != "function"){
             if (!collection[index]){
                 result = false;
@@ -317,7 +317,7 @@ module.exports.every = every;
  
 function some(collection, func){
     let result = false;
-    _.each(collection, function(value, index, collection) {
+    each(collection, function(value, index, collection) {
         if(typeof func != "function"){
             if(collection[index]){
                 result = true;
@@ -350,7 +350,7 @@ function reduce(arr, func, seed){
         seed = arr[0];
         considerFirst = false;
     }
-    _.each(arr, function(value, index, arr){
+    each(arr, function(value, index, arr){
        if(index > 0 || considerFirst){
            seed = func(seed, value, index);
        } 
@@ -366,7 +366,7 @@ module.export.reduce = reduce;
  * @param {object} objects - A collection of objects, the first one of which willr eceive the properties of all the others
  * 
  *
- * @return{object} objectDest - returns the first object which now has the properties of all other arguments passed to _.extend
+ * @return{object} objectDest - returns the first object which now has the properties of all other arguments passed to extend
  *
  */
  
